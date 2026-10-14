@@ -16,8 +16,9 @@ def validate_distribution(distro: str | None) -> CheckResult:
     Returns:
         PASS for Jazzy, WARN for another distribution, or FAIL when unset.
     """
-    if distro == "jazzy":
-        return CheckResult("ENV-001", "ROS 2 distribution", Status.PASS, "Detected: jazzy")
+    supported_distros = ("jazzy", "lyrical", "iron", "humble")
+    if distro in supported_distros:
+        return CheckResult("ENV-001", "ROS 2 distribution", Status.PASS, f"Detected: {distro}")
     if not distro:
         return CheckResult(
             "ENV-001",
@@ -31,7 +32,7 @@ def validate_distribution(distro: str | None) -> CheckResult:
         "ENV-001",
         "ROS 2 distribution",
         Status.WARN,
-        f"Detected: {distro}; supported: jazzy",
+        f"Detected: {distro}; supported: {', '.join(supported_distros)}",
         ("This ROS distribution has not been validated for Nav2 Ready v0.1.",),
         "Re-run in ROS 2 Jazzy before reporting a compatibility issue.",
     )
