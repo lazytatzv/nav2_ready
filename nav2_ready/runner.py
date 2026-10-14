@@ -277,10 +277,8 @@ def _check_transform(node, target: str, source: str, check_id: str,
         stamp = Time.from_msg(transform.header.stamp)
         if stamp.nanoseconds == 0:
             return CheckResult(
-                check_id, title, Status.FAIL,
-                f"Transform {source} -> {target} has a zero timestamp",
-                ("A dynamic Nav2 transform may have been published as static.",),
-                "Publish this transform continuously from localization or odometry.",
+                check_id, title, Status.PASS,
+                f"Transform available: {source} -> {target} (static/latched)",
             )
         age = (node.get_clock().now() - stamp).nanoseconds / 1_000_000_000
         if age > 1.0:
